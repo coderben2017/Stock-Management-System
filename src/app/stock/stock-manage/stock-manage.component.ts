@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Stock, StockService } from '../stock.service';
+import { FormControl } from '@angular/forms';
+import 'rxjs/Rx';
 
 @Component({
   selector: 'app-stock-manage',
@@ -10,20 +13,17 @@ export class StockManageComponent implements OnInit {
 
   private stocks: Array<Stock>;
 
-  constructor(public router: Router) { }
+  private nameFilter: FormControl = new FormControl;
+
+  private keyWord: string;
+
+  constructor(public router: Router, private stockService: StockService) { }
 
   ngOnInit() {
-    this.stocks = [
-      new Stock(1, "腾讯", 66, 5.0, "腾讯集团", ["IT", "互联网", "文化"]),
-      new Stock(2, "阿里", 64, 5.0, "阿里巴巴集团", ["IT", "互联网", "金融"]),
-      new Stock(3, "百度", 58, 4.6, "百度公司", ["IT", "互联网"]),
-      new Stock(4, "京东", 56, 4.5, "京东公司", ["互联网", "金融"]),
-      new Stock(5, "网易", 56, 4.5, "网易公司", ["互联网"]),
-      new Stock(6, "滴滴", 54, 3.9, "滴滴公司", ["互联网"]),
-      new Stock(7, "美团点评", 54, 3.5, "新美大集团", ["互联网"]),
-      new Stock(8, "爱奇艺", 48, 2.9, "爱奇艺公司", ["互联网", "文化"]),
-      new Stock(9, "今日头条", 52, 3.5, "字节跳动公司", ["互联网", "文化"]),
-    ];
+    this.stocks = this.stockService.getStocks();
+    this.nameFilter.valueChanges
+      .debounceTime(500)
+      .subscribe(value => this.keyWord = value);
   }
 
   create() {
@@ -44,17 +44,4 @@ export class StockManageComponent implements OnInit {
 
 }
 
-export class Stock {
 
-  constructor(
-    public id: number,
-    public name: string,
-    public price: number,
-    public rating: number,
-    public description: string,
-    public categories: Array<string>
-  ) {
-
-  }
-
-}

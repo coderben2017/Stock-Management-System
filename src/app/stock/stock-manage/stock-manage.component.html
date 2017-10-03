@@ -4,7 +4,8 @@
     <!-- 搜索框 -->
     <div class="box-tools">
       <div class="input-group input-group-sm" style="width: 150px; margin-top: 5px;">
-        <input type="text" name="table_search" class="form-control pull-right" placeholder="股票名称">
+        <input [formControl]="nameFilter" type="text" name="table_search"
+               class="form-control pull-right" placeholder="股票名称">
 
         <div class="input-group-btn">
           <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
@@ -27,7 +28,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let stock of stocks">
+        <tr *ngFor="let stock of stocks | stockFilter: 'name':keyWord"><!-- 根据name字段，过滤keyWord属性值 -->
           <td>{{stock.id}}</td>
           <td>{{stock.name}}</td>
           <td>{{stock.price}}</td>
