@@ -28,7 +28,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let stock of stocks | stockFilter: 'name':keyWord"><!-- 根据name字段，过滤keyWord属性值 -->
+        <tr *ngFor="let stock of stocks | async | stockFilter: 'name':keyWord"><!-- 根据name字段，过滤keyWord属性值 -->
           <td>{{stock.id}}</td>
           <td>{{stock.name}}</td>
           <td>{{stock.price}}</td>

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Stock, StockService } from '../stock.service';
 import { FormControl } from '@angular/forms';
 import 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-stock-manage',
@@ -11,7 +12,7 @@ import 'rxjs/Rx';
 })
 export class StockManageComponent implements OnInit {
 
-  private stocks: Array<Stock>;
+  private stocks: Observable<Stock[]>;
 
   private nameFilter: FormControl = new FormControl;
 
@@ -39,7 +40,7 @@ export class StockManageComponent implements OnInit {
    * @returns {any}
    */
   delete(stock: Stock) {
-    console.log(stock.id);
+    console.log(`删除 ${stock.id}`);
   }
 
 }

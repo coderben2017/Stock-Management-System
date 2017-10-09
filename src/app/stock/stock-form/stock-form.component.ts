@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Stock, StockService } from '../stock.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-stock-form',
@@ -10,7 +10,7 @@ import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angul
 })
 export class StockFormComponent implements OnInit {
 
-  stock: Stock;
+  stock: Stock = new Stock(0, '', 0, 0, '', []);
 
   formModel: FormGroup;
 
@@ -20,21 +20,37 @@ export class StockFormComponent implements OnInit {
 
   ngOnInit() {
     let stockId: number = this.routeInfo.snapshot.params['id'];
-    this.stock = this.stockService.getStock(stockId);
 
     /* 响应式表单 */
     let fb = new FormBuilder();
     this.formModel = fb.group({
-      name: [this.stock.name, [Validators.required, Validators.minLength(1)]],
-      price: [this.stock.price, Validators.required],
-      description: [this.stock.description],
+      name: ['', [Validators.required, Validators.minLength(1)]],
+      price: ['', Validators.required],
+      description: [''],
       categories: fb.array([
-        new FormControl(this.stock.categories.indexOf(this.categories[0]) > -1),
-        new FormControl(this.stock.categories.indexOf(this.categories[1]) > -1),
-        new FormControl(this.stock.categories.indexOf(this.categories[2]) > -1),
-        new FormControl(this.stock.categories.indexOf(this.categories[3]) > -1)
+        new FormControl(false),
+        new FormControl(false),
+        new FormControl(false),
+        new FormControl(false)
       ], this.categoriesSelectorValidator)
     });
+
+    this.stockService.getStock(stockId).subscribe(
+      data => {
+        this.stock = data;
+        this.formModel.reset({
+          name: data.name,
+          price: data.price,
+          description: data.description,
+          categories: [
+            data.categories.indexOf(this.categories[0]) > -1,
+            data.categories.indexOf(this.categories[1]) > -1,
+            data.categories.indexOf(this.categories[2]) > -1,
+            data.categories.indexOf(this.categories[3]) > -1,
+          ]
+        });
+      }
+    );
   }
 
   categoriesSelectorValidator(inControl: FormArray) {
