@@ -8,15 +8,15 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 export class StarsComponent implements OnInit, OnChanges {
 
   @Input()
-  private rating: number = 0;
+  private rating = 0;
 
   @Input()
-  private readonly: boolean = true;
+  private readonly = true;
 
   @Output()
   private ratingChange: EventEmitter<number> = new EventEmitter();
 
-  private stars: boolean[]; // 与Array<boolean>的写法区别？
+  stars: boolean[]; // 与Array<boolean>的写法区别？
 
   constructor() { }
 

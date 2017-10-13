@@ -8,7 +8,7 @@ import { SocketService } from './socket.service';
 })
 export class HeaderComponent implements OnInit {
 
-  messageCount: number = 0;
+  messageCount = 0;
 
   constructor(public socketservice: SocketService) { }
 

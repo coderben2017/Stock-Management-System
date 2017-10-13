@@ -12,11 +12,11 @@ import { Observable } from 'rxjs/Observable';
 })
 export class StockManageComponent implements OnInit {
 
-  private stocks: Observable<Stock[]>;
+  stocks: Observable<Stock[]>;
 
-  private nameFilter: FormControl = new FormControl;
+  nameFilter: FormControl = new FormControl;
 
-  private keyWord: string;
+  keyWord: string;
 
   constructor(public router: Router, private stockService: StockService) { }
 

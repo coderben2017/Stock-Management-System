@@ -19,10 +19,10 @@ export class StockFormComponent implements OnInit {
   constructor(private routeInfo: ActivatedRoute, private stockService: StockService, private route: Router) { }
 
   ngOnInit() {
-    let stockId: number = this.routeInfo.snapshot.params['id'];
+    const stockId: number = this.routeInfo.snapshot.params['id'];
 
     /* 响应式表单 */
-    let fb = new FormBuilder();
+    const fb = new FormBuilder();
     this.formModel = fb.group({
       name: ['', [Validators.required, Validators.minLength(1)]],
       price: ['', Validators.required],
@@ -73,7 +73,7 @@ export class StockFormComponent implements OnInit {
 
   save(): void {
     /* code here */
-    let chineseCategories = [];
+    const chineseCategories = [];
     let index = 0;
     for (let i = 0; i < 4; ++i) {
       if (this.formModel.value.categories[i]) {
